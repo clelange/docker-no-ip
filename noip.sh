@@ -2,24 +2,28 @@
 
 GENERATED_CONFIG_FILE=/config/no-ip2.generated.conf
 
-#-----------------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------
 
 function ts {
-  echo [`date '+%b %d %X'`]
+  echo "[$(date '+%b %d %X')]"
 }
 
-#-----------------------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------
 
 while true
 do
+  IP=$(wget -qO- "http://myexternalip.com/raw")
+  echo "Public IP: ${IP}"
   echo "$(ts) Launching the noip2 daemon"
-  /files/noip2-x86_64 -c "$GENERATED_CONFIG_FILE"
+  /files/noip2-x86_64 -c "$GENERATED_CONFIG_FILE" -i "${IP}"
 
   # Give it a few seconds to do the first update. This helps avoid questions about "Last IP Address set 0.0.0.0"
   sleep 5
 
   while true
   do
+    IP=$(wget -qO- "http://myexternalip.com/raw")
+    echo "Public IP: ${IP}"
     output=$(/files/noip2-x86_64 -c "$GENERATED_CONFIG_FILE" -S 2>&1)
 
     echo "$(ts) Current status"
