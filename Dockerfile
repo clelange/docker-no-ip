@@ -1,12 +1,12 @@
-FROM alpine:3.7
+FROM alpine:3.11
 
-MAINTAINER David Coppit <david@coppit.org>
+LABEL MAINTAINER "Clemens Lange"
 
 ENV TERM=xterm-256color
 
 RUN true && \
 \
-echo "http://dl-cdn.alpinelinux.org/alpine/v3.7/community" >> /etc/apk/repositories && \
+echo "http://dl-cdn.alpinelinux.org/alpine/v3.11/community" >> /etc/apk/repositories && \
 apk --update upgrade && \
 \
 # Basics, including runit
